@@ -30,4 +30,5 @@ S.A.A.M. is a responsive, customizable "pane of glass" web dashboard designed to
 1.  **Firebase App Check**: Implement reCAPTCHA Enterprise verification to lock down the Cloud Functions from non-browser invocations.
 2.  **Gemini AI Parsing**: Create `functions/src/ai/geminiParser.ts` to consume feeds (like Hacker News) and output synthesized TL;DRs directly to the frontend widgets.
 3.  **Firebase Auth**: Transition from `localStorage` to Firestore for saving encrypted user-specific dashboard layouts and custom AI prompts.
-4.  **UI/UX Testing**: Implement automated browser-based verification (using Playwright/Puppeteer) to ensure visual regressions and widget data integrity during feature additions.
+4.  **UI/UX Testing**: Implement automated browser-based verification (using Playwright/Puppeteer) to ensure visual<!-- CI Trigger: IAM Permissions Applied by Agent -->
+widget data integrity during feature additions.
