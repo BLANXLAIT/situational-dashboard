@@ -16,7 +16,7 @@
             },
             {
                 "source": "/api/analyst/narrative",
-                "function": "gsNarrative"
+                "function": "getSituationNarrative"
             },
             {
                 "source": "/api/alerts/geology",
