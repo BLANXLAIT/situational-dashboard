@@ -35,6 +35,10 @@
                 "function": "getSituationNarrative"
             },
             {
+                "source": "/api/ping",
+                "function": "testPing"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }

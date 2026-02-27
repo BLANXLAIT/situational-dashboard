@@ -5,6 +5,8 @@ import { getTopTechNews } from "./intelligence/hackernews";
 import { getSpaceWeatherAlerts } from "./geology/spaceweather";
 import { getGdacsDisasters } from "./disasters/gdacs";
 import { getMacroEconomicData } from "./finance/fred";
+import { aggregateGlobalState } from "./analyst/consolidator";
+import { generateNarrative } from "./analyst/gemini";
 
 // Set strict CORS policy to prevent unauthorized web clients from draining quotas
 const ALLOWED_ORIGINS = [
@@ -49,7 +51,7 @@ export const getSpaceWeather = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publ
     }
 });
 
-// Endpoint to fetch live global disaster alerts from GDACS
+// Endpoint to fetch global disaster alerts from GDACS
 export const getGdacsAlerts = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, async (request, response) => {
     logger.info("Fetching global disaster alerts from GDACS...");
     try {
@@ -61,10 +63,10 @@ export const getGdacsAlerts = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publi
     }
 });
 
-import { aggregateGlobalState } from "./analyst/consolidator";
-import { generateNarrative } from "./analyst/gemini";
-
-// ... (existing imports)
+// Test endpoint to verify connectivity
+export const testPing = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, (request, response) => {
+    response.send("pong");
+});
 
 // Endpoint to fetch macro economic data from FRED
 export const getMacroData = onRequest({
