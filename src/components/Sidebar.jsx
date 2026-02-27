@@ -31,7 +31,6 @@ export default function Sidebar({ activeView, setActiveView, activeDomain, setAc
                 </div>
 
                 <div className="sidebar-section">
-                    <p className="section-label">PLATFORM</p>
                     <nav className="sidebar-nav">
                         <button
                             className={`nav-item ${activeView === 'dashboard' ? 'active' : ''}`}
@@ -54,25 +53,25 @@ export default function Sidebar({ activeView, setActiveView, activeDomain, setAc
                     </nav>
                 </div>
 
-                {activeView === 'dashboard' && (
-                    <div className="sidebar-section">
-                        <p className="section-label">DOMAINS</p>
-                        <nav className="sidebar-nav">
-                            {DOMAINS.map(domain => (
-                                <button
-                                    key={domain.id}
-                                    className={`nav-item ${activeDomain === domain.id ? 'active' : ''}`}
-                                    onClick={() => { setActiveDomain(domain.id); onClose(); }}
-                                >
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
-                                        <path d={domain.icon}></path>
-                                    </svg>
-                                    {domain.id}
-                                </button>
-                            ))}
-                        </nav>
-                    </div>
-                )}
+                <div className="sidebar-section">
+                    <p className="section-label">FILTER BY DOMAIN</p>
+                    <nav className="sidebar-nav">
+                        {DOMAINS.map(domain => (
+                            <button
+                                key={domain.id}
+                                className={`nav-item ${activeDomain === domain.id ? 'active' : ''}`}
+                                disabled={activeView !== 'dashboard'}
+                                style={{ opacity: activeView !== 'dashboard' ? 0.4 : 1, cursor: activeView !== 'dashboard' ? 'not-allowed' : 'pointer' }}
+                                onClick={() => { setActiveDomain(domain.id); onClose(); }}
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
+                                    <path d={domain.icon}></path>
+                                </svg>
+                                {domain.id}
+                            </button>
+                        ))}
+                    </nav>
+                </div>
 
                 <div className="sidebar-footer">
                     <button className="nav-item">
