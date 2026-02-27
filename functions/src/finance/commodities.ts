@@ -4,7 +4,7 @@ const FRED_BASE_URL = "https://api.stlouisfed.org/fred";
 
 const COMMODITY_SERIES: Record<string, { title: string; unit: string; prefix?: string }> = {
     DCOILWTICO: { title: "WTI Crude Oil", unit: "$/bbl", prefix: "$" },
-    GOLDAMGBD228NLBM: { title: "Gold (London Fix)", unit: "$/oz", prefix: "$" },
+    GOLDPMGBD228NLBM: { title: "Gold (London PM Fix)", unit: "$/oz", prefix: "$" },
     DCOILBRENTEU: { title: "Brent Crude", unit: "$/bbl", prefix: "$" },
     DHHNGSP: { title: "Natural Gas", unit: "$/MMBtu", prefix: "$" },
     DTWEXBGS: { title: "US Dollar Index", unit: "index" },
