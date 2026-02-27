@@ -9,7 +9,7 @@ const DOMAINS = [
     { id: 'Tech & AI', icon: 'M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83' }
 ];
 
-export default function Sidebar({ activeDomain, setActiveDomain, isOpen, onClose }) {
+export default function Sidebar({ activeView, setActiveView, activeDomain, setActiveDomain, isOpen, onClose }) {
     return (
         <>
             {/* Mobile overlay */}
@@ -31,22 +31,48 @@ export default function Sidebar({ activeDomain, setActiveDomain, isOpen, onClose
                 </div>
 
                 <div className="sidebar-section">
-                    <p className="section-label">DOMAINS</p>
+                    <p className="section-label">PLATFORM</p>
                     <nav className="sidebar-nav">
-                        {DOMAINS.map(domain => (
-                            <button
-                                key={domain.id}
-                                className={`nav-item ${activeDomain === domain.id ? 'active' : ''}`}
-                                onClick={() => { setActiveDomain(domain.id); onClose(); }}
-                            >
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
-                                    <path d={domain.icon}></path>
-                                </svg>
-                                {domain.id}
-                            </button>
-                        ))}
+                        <button
+                            className={`nav-item ${activeView === 'dashboard' ? 'active' : ''}`}
+                            onClick={() => { setActiveView('dashboard'); onClose(); }}
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
+                                <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Dashboard
+                        </button>
+                        <button
+                            className={`nav-item ${activeView === 'sources' ? 'active' : ''}`}
+                            onClick={() => { setActiveView('sources'); onClose(); }}
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Data Sources
+                        </button>
                     </nav>
                 </div>
+
+                {activeView === 'dashboard' && (
+                    <div className="sidebar-section">
+                        <p className="section-label">DOMAINS</p>
+                        <nav className="sidebar-nav">
+                            {DOMAINS.map(domain => (
+                                <button
+                                    key={domain.id}
+                                    className={`nav-item ${activeDomain === domain.id ? 'active' : ''}`}
+                                    onClick={() => { setActiveDomain(domain.id); onClose(); }}
+                                >
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-icon">
+                                        <path d={domain.icon}></path>
+                                    </svg>
+                                    {domain.id}
+                                </button>
+                            ))}
+                        </nav>
+                    </div>
+                )}
 
                 <div className="sidebar-footer">
                     <button className="nav-item">
