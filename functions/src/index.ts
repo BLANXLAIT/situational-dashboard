@@ -1,5 +1,9 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
+
+initializeApp();
 import { getSignificantEarthquakes } from "./geology/usgs";
 import { getTopTechNews } from "./intelligence/hackernews";
 import { getSpaceWeatherAlerts } from "./geology/spaceweather";
@@ -150,13 +154,17 @@ export const getAnalystConfig = onRequest({ cors: ALLOWED_ORIGINS, invoker: "pub
 /**
  * AI-powered Situation Narrative
  * Aggregates data from all modules and uses Gemini to synthesize a narrative.
+ * Cached in Firestore with a 12-hour TTL to avoid redundant Gemini calls.
+ * Pass ?force=true to bypass cache and regenerate.
  */
+const NARRATIVE_CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+
 export const getSituationNarrative = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
     secrets: ["FRED_API_KEY", "GEMINI_API_KEY"],
 }, async (request, response) => {
-    logger.info("Generating global situation narrative...");
+    logger.info("Situation narrative requested...");
     try {
         const fredKey = process.env.FRED_API_KEY;
         const geminiKey = process.env.GEMINI_API_KEY;
@@ -165,10 +173,42 @@ export const getSituationNarrative = onRequest({
             throw new Error("Missing required API keys in Secret Manager.");
         }
 
+        const forceRefresh = request.query.force === "true";
+        const db = getFirestore();
+        const cacheRef = db.collection("cache").doc("situation_narrative");
+
+        // Check cache unless force refresh
+        if (!forceRefresh) {
+            const cached = await cacheRef.get();
+            if (cached.exists) {
+                const data = cached.data()!;
+                const age = Date.now() - data.generatedAt;
+                if (age < NARRATIVE_CACHE_TTL_MS) {
+                    logger.info(`Serving cached narrative (age: ${Math.round(age / 60000)}min)`);
+                    response.json({
+                        narrative: data.narrative,
+                        timestamp: data.timestamp,
+                        cached: true,
+                        cacheAge: Math.round(age / 60000),
+                    });
+                    return;
+                }
+            }
+        }
+
+        // Generate fresh narrative
+        logger.info("Generating fresh narrative via Gemini...");
         const context = await aggregateGlobalState(fredKey);
         const narrative = await generateNarrative(geminiKey, context);
 
-        response.json({ narrative, timestamp: context.timestamp });
+        // Cache the result
+        await cacheRef.set({
+            narrative,
+            timestamp: context.timestamp,
+            generatedAt: Date.now(),
+        });
+
+        response.json({ narrative, timestamp: context.timestamp, cached: false });
     } catch (e) {
         logger.error("Situation Narrative failed:", e);
         response.status(500).json({ error: (e as Error).message });

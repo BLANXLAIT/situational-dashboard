@@ -8,11 +8,15 @@ export default function AnalystWidget() {
     const [error, setError] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
 
-    const fetchNarrative = async () => {
+    const [cached, setCached] = useState(false);
+    const [cacheAge, setCacheAge] = useState(null);
+
+    const fetchNarrative = async (force = false) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('/api/analyst/narrative');
+            const url = force ? '/api/analyst/narrative?force=true' : '/api/analyst/narrative';
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Analyst service returned status: ${response.status}`);
             }
@@ -22,6 +26,8 @@ export default function AnalystWidget() {
             }
             setNarrative(data.narrative);
             setLastUpdated(new Date(data.timestamp));
+            setCached(!!data.cached);
+            setCacheAge(data.cacheAge || null);
         } catch (e) {
             console.error("Analyst Narrative failed:", e);
             setError(`Analyst offline: ${e.message}`);
@@ -32,9 +38,6 @@ export default function AnalystWidget() {
 
     useEffect(() => {
         fetchNarrative();
-        // Refresh analysis every 30 minutes
-        const interval = setInterval(fetchNarrative, 30 * 60 * 1000);
-        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -47,7 +50,7 @@ export default function AnalystWidget() {
                 </div>
                 <button
                     className="refresh-btn"
-                    onClick={fetchNarrative}
+                    onClick={() => fetchNarrative(true)}
                     disabled={loading}
                 >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6" /><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M3 22v-6h6" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /></svg>
@@ -74,7 +77,12 @@ export default function AnalystWidget() {
 
             <div className="analyst-footer">
                 <span>Classification: Unclassified // Open Source Intelligence</span>
-                {lastUpdated && <span>Last analysis: {lastUpdated.toLocaleTimeString()}</span>}
+                {lastUpdated && (
+                    <span>
+                        Last analysis: {lastUpdated.toLocaleTimeString()}
+                        {cached && cacheAge != null && ` (cached ${cacheAge < 60 ? `${cacheAge}m` : `${Math.round(cacheAge / 60)}h`} ago)`}
+                    </span>
+                )}
             </div>
         </div>
     );
