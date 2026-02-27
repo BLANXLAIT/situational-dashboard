@@ -55,6 +55,33 @@ const SOURCES = [
         domain: 'Finance',
         description: 'Real-time pricing for major equity indices and commodities. Currently using simulation logic for demonstration.',
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+    },
+    {
+        name: 'Commodity Prices',
+        provider: 'Federal Reserve (FRED)',
+        url: 'https://fred.stlouisfed.org/',
+        frequency: '30 Minutes',
+        domain: 'Finance',
+        description: 'Daily commodity prices including WTI/Brent crude oil, gold, natural gas, US gasoline, and the US Dollar Index. Sourced from FRED with 30-day sparkline history.',
+        icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M2 12h20" /><path d="m4.93 4.93 14.14 14.14" /><path d="m4.93 19.07 14.14-14.14" /></svg>
+    },
+    {
+        name: 'WHO Outbreak News',
+        provider: 'World Health Organization',
+        url: 'https://www.who.int/emergencies/disease-outbreak-news',
+        frequency: '15 Minutes',
+        domain: 'Health',
+        description: 'Official disease outbreak news from the WHO. Covers emerging pathogens including Mpox, Nipah, Marburg, avian influenza, and other high-priority events.',
+        icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z" /></svg>
+    },
+    {
+        name: 'Influenza Trends (ILINet)',
+        provider: 'disease.sh (CDC)',
+        url: 'https://disease.sh/',
+        frequency: '30 Minutes',
+        domain: 'Health',
+        description: 'Weekly influenza-like illness (ILI) surveillance data from the CDC ILINet network. Tracks weighted ILI percentages across U.S. healthcare providers.',
+        icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
     }
 ];
 

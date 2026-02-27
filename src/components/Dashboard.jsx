@@ -7,19 +7,25 @@ import SpaceWeatherWidget from './widgets/SpaceWeatherWidget';
 import GdacsWidget from './widgets/GdacsWidget';
 import MacroWidget from './widgets/MacroWidget';
 import AnalystWidget from './widgets/AnalystWidget';
+import CommoditiesWidget from './widgets/CommoditiesWidget';
+import HealthAlertsWidget from './widgets/HealthAlertsWidget';
+import InfluenzaTrendWidget from './widgets/InfluenzaTrendWidget';
 import './Dashboard.css';
 
 const AVAILABLE_WIDGETS = [
-    { id: 'finance', component: FinanceWidget, domain: 'Finance' },
-    { id: 'geo', component: GeoWidget, domain: 'Geology' },
-    { id: 'space', component: SpaceWeatherWidget, domain: 'Space Weather' },
-    { id: 'news', component: NewsStreamWidget, domain: 'Tech & AI' },
-    { id: 'gdacs', component: GdacsWidget, domain: 'Geology' },
-    { id: 'macro', component: MacroWidget, domain: 'Finance' },
-    { id: 'analyst', component: AnalystWidget, domain: 'Intelligence' },
+    { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance' },
+    { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology' },
+    { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather' },
+    { id: 'news', label: 'Intelligence Stream', component: NewsStreamWidget, domain: 'Tech & AI' },
+    { id: 'gdacs', label: 'Global Disasters', component: GdacsWidget, domain: 'Geology' },
+    { id: 'macro', label: 'Macro Economic', component: MacroWidget, domain: 'Finance' },
+    { id: 'commodities', label: 'Commodity Prices', component: CommoditiesWidget, domain: 'Finance' },
+    { id: 'analyst', label: 'AI Analyst', component: AnalystWidget, domain: 'Intelligence' },
+    { id: 'healthAlerts', label: 'WHO Outbreak News', component: HealthAlertsWidget, domain: 'Health' },
+    { id: 'influenza', label: 'Influenza Trends', component: InfluenzaTrendWidget, domain: 'Health' },
 ];
 
-const DEFAULT_LAYOUT = ['analyst', 'finance', 'news', 'geo', 'space'];
+const DEFAULT_LAYOUT = ['analyst', 'finance', 'news', 'geo', 'space', 'healthAlerts', 'commodities'];
 
 export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen }) {
     const [activeWidgets, setActiveWidgets] = useState(() => {
@@ -100,7 +106,7 @@ export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen })
                                 {availableToAdd.length > 0 ? (
                                     availableToAdd.map(w => (
                                         <button key={w.id} onClick={() => addWidget(w.id)} className="dropdown-item">
-                                            Add {w.domain} Tracker
+                                            Add {w.label}
                                         </button>
                                     ))
                                 ) : (
@@ -116,8 +122,6 @@ export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen })
 
                 </div>
             </header>
-
-            <AnalystWidget />
 
             <div className="widget-grid">
                 {visibleWidgets.length === 0 ? (

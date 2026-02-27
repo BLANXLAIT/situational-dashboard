@@ -5,6 +5,8 @@ import { getTopTechNews } from "./intelligence/hackernews";
 import { getSpaceWeatherAlerts } from "./geology/spaceweather";
 import { getGdacsDisasters } from "./disasters/gdacs";
 import { getMacroEconomicData } from "./finance/fred";
+import { getCommodityPrices } from "./finance/commodities";
+import { getOutbreakAlerts, getInfluenzaTrends } from "./health/diseases";
 import { aggregateGlobalState } from "./analyst/consolidator";
 import { generateNarrative, ANALYST_CONFIG } from "./analyst/gemini";
 
@@ -60,6 +62,54 @@ export const getGdacsAlerts = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publi
     } catch (error) {
         logger.error("Error fetching GDACS alerts:", error);
         response.status(500).json({ error: "Failed to fetch GDACS alerts" });
+    }
+});
+
+// Endpoint to fetch commodity prices from FRED
+export const getCommodityData = onRequest({
+    cors: ALLOWED_ORIGINS,
+    invoker: "public",
+    secrets: ["FRED_API_KEY"]
+}, async (request, response) => {
+    logger.info("Fetching commodity prices from FRED...");
+    const apiKey = process.env.FRED_API_KEY;
+
+    if (!apiKey) {
+        logger.error("FRED_API_KEY is not set in environment");
+        response.status(500).json({ error: "API Key not configured" });
+        return;
+    }
+
+    try {
+        const commodities = await getCommodityPrices(apiKey);
+        response.json({ commodities });
+    } catch (error) {
+        logger.error("Error fetching commodity data:", error);
+        response.status(500).json({ error: "Failed to fetch commodity data" });
+    }
+});
+
+// Endpoint to fetch outbreak alerts from WHO
+export const getHealthAlerts = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, async (request, response) => {
+    logger.info("Fetching outbreak alerts from disease.sh...");
+    try {
+        const alerts = await getOutbreakAlerts();
+        response.json({ alerts });
+    } catch (error) {
+        logger.error("Error fetching outbreak alerts:", error);
+        response.status(500).json({ error: "Failed to fetch outbreak alerts" });
+    }
+});
+
+// Endpoint to fetch influenza trend data from disease.sh
+export const getInfluenzaData = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, async (request, response) => {
+    logger.info("Fetching influenza trends from disease.sh...");
+    try {
+        const trends = await getInfluenzaTrends();
+        response.json({ trends });
+    } catch (error) {
+        logger.error("Error fetching influenza data:", error);
+        response.status(500).json({ error: "Failed to fetch influenza data" });
     }
 });
 

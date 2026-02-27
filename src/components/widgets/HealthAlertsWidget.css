@@ -1,0 +1,78 @@
+.health-alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+a.health-alert-card {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.health-alert-card {
+    display: flex;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass-hover);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.health-alert-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+}
+
+.health-alert-card.severity-high {
+    border-left-color: var(--color-danger);
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(255, 255, 255, 0.03) 30%);
+}
+
+.health-alert-card.severity-medium {
+    border-left-color: var(--color-warning);
+}
+
+.health-alert-card.severity-low {
+    border-left-color: var(--color-success);
+}
+
+.health-alert-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.health-alert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.health-alert-severity {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.health-alert-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.health-alert-title {
+    font-size: 0.95rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.health-alert-summary {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}

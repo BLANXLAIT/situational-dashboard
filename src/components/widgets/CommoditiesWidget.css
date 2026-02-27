@@ -1,0 +1,92 @@
+.commodity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.commodity-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass-hover);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all var(--transition-fast);
+}
+
+.commodity-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.commodity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.commodity-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.commodity-unit {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.commodity-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.commodity-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--text-primary);
+}
+
+.commodity-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.commodity-change.positive {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--color-success);
+}
+
+.commodity-change.negative {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--color-danger);
+}
+
+.commodity-sparkline {
+    margin-top: 2px;
+}
+
+.commodity-date {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .commodity-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .commodity-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -31,6 +31,21 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/macro/, '')
       },
+      '/api/commodities': {
+        target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getCommodityData',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/commodities/, '')
+      },
+      '/api/health/alerts': {
+        target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getHealthAlerts',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/health\/alerts/, '')
+      },
+      '/api/health/influenza': {
+        target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getInfluenzaData',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/health\/influenza/, '')
+      },
       '/api/analyst/config': {
         target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getAnalystConfig',
         changeOrigin: true,

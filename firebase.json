@@ -43,6 +43,18 @@
                 "function": "getMacroData"
             },
             {
+                "source": "/api/commodities",
+                "function": "getCommodityData"
+            },
+            {
+                "source": "/api/health/alerts",
+                "function": "getHealthAlerts"
+            },
+            {
+                "source": "/api/health/influenza",
+                "function": "getInfluenzaData"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }
