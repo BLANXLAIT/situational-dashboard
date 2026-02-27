@@ -3,15 +3,17 @@ import Sidebar from './Sidebar';
 import FinanceWidget from './widgets/FinanceWidget';
 import GeoWidget from './widgets/GeoWidget';
 import NewsStreamWidget from './widgets/NewsStreamWidget';
+import SpaceWeatherWidget from './widgets/SpaceWeatherWidget';
 import './Dashboard.css';
 
 const AVAILABLE_WIDGETS = [
     { id: 'finance', component: FinanceWidget, domain: 'Finance' },
     { id: 'geo', component: GeoWidget, domain: 'Geology' },
+    { id: 'space', component: SpaceWeatherWidget, domain: 'Space Weather' },
     { id: 'news', component: NewsStreamWidget, domain: 'Tech & AI' }
 ];
 
-const DEFAULT_LAYOUT = ['finance', 'news', 'geo'];
+const DEFAULT_LAYOUT = ['finance', 'news', 'geo', 'space'];
 
 export default function Dashboard() {
     const [activeDomain, setActiveDomain] = useState('All');
