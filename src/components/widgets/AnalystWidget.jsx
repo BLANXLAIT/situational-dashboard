@@ -17,11 +17,14 @@ export default function AnalystWidget() {
                 throw new Error(`Analyst service returned status: ${response.status}`);
             }
             const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
             setNarrative(data.narrative);
             setLastUpdated(new Date(data.timestamp));
         } catch (e) {
             console.error("Analyst Narrative failed:", e);
-            setError("The analyst is currently offline. Retrying connection to command center...");
+            setError(`Analyst offline: ${e.message}`);
         } finally {
             setLoading(false);
         }

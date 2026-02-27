@@ -4,7 +4,7 @@ import * as logger from "firebase-functions/logger";
 export async function generateNarrative(apiKey: string, context: any) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         systemInstruction: `You are the S.A.A.M. (Strategic Autonomous Analysis Module) Intelligence Analyst. 
         Your goal is to synthesize disparate data streams into a cohesive, high-level "Situation Room" narrative.
         
