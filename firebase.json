@@ -11,6 +11,14 @@
         ],
         "rewrites": [
             {
+                "source": "/api/ping",
+                "function": "testPing"
+            },
+            {
+                "source": "/api/analyst/narrative",
+                "function": "gsNarrative"
+            },
+            {
                 "source": "/api/alerts/geology",
                 "function": "getGeologicAlerts"
             },
@@ -29,14 +37,6 @@
             {
                 "source": "/api/macro",
                 "function": "getMacroData"
-            },
-            {
-                "source": "/api/analyst/narrative",
-                "function": "gsNarrative"
-            },
-            {
-                "source": "/api/ping",
-                "function": "testPing"
             },
             {
                 "source": "**",
