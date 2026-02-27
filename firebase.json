@@ -32,7 +32,7 @@
             },
             {
                 "source": "/api/analyst/narrative",
-                "function": "getSituationNarrative"
+                "function": "gsNarrative"
             },
             {
                 "source": "/api/ping",

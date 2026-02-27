@@ -96,7 +96,7 @@ export const getMacroData = onRequest({
  * AI-powered Situation Narrative
  * Aggregates data from all modules and uses Gemini to synthesize a narrative.
  */
-export const getSituationNarrative = onRequest({
+export const gsNarrative = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
     secrets: ["FRED_API_KEY", "GEMINI_API_KEY"],
