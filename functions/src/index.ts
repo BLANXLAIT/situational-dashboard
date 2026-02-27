@@ -61,6 +61,11 @@ export const getGdacsAlerts = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publi
     }
 });
 
+import { aggregateGlobalState } from "./analyst/consolidator";
+import { generateNarrative } from "./analyst/gemini";
+
+// ... (existing imports)
+
 // Endpoint to fetch macro economic data from FRED
 export const getMacroData = onRequest({
     cors: ALLOWED_ORIGINS,
@@ -82,5 +87,33 @@ export const getMacroData = onRequest({
     } catch (error) {
         logger.error("Error fetching macro data:", error);
         response.status(500).json({ error: "Failed to fetch macro data" });
+    }
+});
+
+/**
+ * AI-powered Situation Narrative
+ * Aggregates data from all modules and uses Gemini to synthesize a narrative.
+ */
+export const getSituationNarrative = onRequest({
+    cors: ALLOWED_ORIGINS,
+    invoker: "public",
+    secrets: ["FRED_API_KEY", "GEMINI_API_KEY"],
+}, async (request, response) => {
+    logger.info("Generating global situation narrative...");
+    try {
+        const fredKey = process.env.FRED_API_KEY;
+        const geminiKey = process.env.GEMINI_API_KEY;
+
+        if (!fredKey || !geminiKey) {
+            throw new Error("Missing required API keys in Secret Manager.");
+        }
+
+        const context = await aggregateGlobalState(fredKey);
+        const narrative = await generateNarrative(geminiKey, context);
+
+        response.json({ narrative, timestamp: context.timestamp });
+    } catch (e) {
+        logger.error("Situation Narrative failed:", e);
+        response.status(500).json({ error: (e as Error).message });
     }
 });

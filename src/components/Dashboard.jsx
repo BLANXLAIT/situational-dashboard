@@ -6,6 +6,7 @@ import NewsStreamWidget from './widgets/NewsStreamWidget';
 import SpaceWeatherWidget from './widgets/SpaceWeatherWidget';
 import GdacsWidget from './widgets/GdacsWidget';
 import MacroWidget from './widgets/MacroWidget';
+import AnalystWidget from './widgets/AnalystWidget';
 import './Dashboard.css';
 
 const AVAILABLE_WIDGETS = [
@@ -15,9 +16,10 @@ const AVAILABLE_WIDGETS = [
     { id: 'news', component: NewsStreamWidget, domain: 'Tech & AI' },
     { id: 'gdacs', component: GdacsWidget, domain: 'Geology' },
     { id: 'macro', component: MacroWidget, domain: 'Finance' },
+    { id: 'analyst', component: AnalystWidget, domain: 'Intelligence' },
 ];
 
-const DEFAULT_LAYOUT = ['finance', 'news', 'geo', 'space'];
+const DEFAULT_LAYOUT = ['analyst', 'finance', 'news', 'geo', 'space'];
 
 export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen }) {
     const [activeWidgets, setActiveWidgets] = useState(() => {
@@ -114,6 +116,8 @@ export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen })
 
                 </div>
             </header>
+
+            <AnalystWidget />
 
             <div className="widget-grid">
                 {visibleWidgets.length === 0 ? (

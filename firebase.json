@@ -31,6 +31,10 @@
                 "function": "getMacroData"
             },
             {
+                "source": "/api/analyst/narrative",
+                "function": "getSituationNarrative"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }
