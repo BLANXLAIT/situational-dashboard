@@ -4,3 +4,5 @@ dist/
 functions/lib/
 firebase-debug.log
 .firebase/
+playwright-report/
+test-results/
