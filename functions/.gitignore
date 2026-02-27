@@ -1,0 +1,12 @@
+# Firebase
+.firebase/
+firebase-debug.log
+.runtimeconfig.json
+
+# Node
+node_modules/
+lib/
+
+# Environment
+.env
+.env.*

@@ -1,8 +1,8 @@
 .dashboard-layout {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .dashboard-main {
@@ -11,6 +11,8 @@
     flex-direction: column;
     padding: 0 var(--radius-xl) var(--radius-xl) var(--radius-xl);
     overflow-y: auto;
+    min-width: 0;
+    /* prevent flex blowout */
 }
 
 .dashboard-header {
@@ -22,9 +24,23 @@
     position: sticky;
     top: 0;
     background: var(--bg-primary);
-    /* Hide content scrolling behind header */
     z-index: 10;
     box-shadow: 0 10px 30px -10px var(--bg-primary);
+    gap: 12px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.header-left h1 {
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .subtitle {
@@ -37,6 +53,7 @@
     display: flex;
     gap: var(--radius-sm);
     align-items: center;
+    flex-shrink: 0;
 }
 
 .glass-btn {
@@ -52,6 +69,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
 }
 
 .glass-btn:hover {
@@ -67,6 +85,12 @@
 
 .icon-btn {
     padding: 10px;
+}
+
+/* Hamburger — hidden on desktop, shown on mobile */
+.hamburger-btn {
+    display: none;
+    flex-shrink: 0;
 }
 
 .widget-grid {
@@ -141,4 +165,46 @@
     color: var(--text-muted);
     font-size: 0.85rem;
     text-align: center;
+}
+
+/* ── Tablet ─────────────────────────────────────────────── */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .widget-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .dashboard-main {
+        padding: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+    }
+
+    .dashboard-header {
+        padding: var(--radius-md) 0;
+        margin-bottom: var(--radius-md);
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Hide "Add Widget" label text on very small screens */
+    .btn-label {
+        display: none;
+    }
+
+    .widget-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: minmax(260px, auto);
+        gap: var(--radius-md);
+    }
+
+    .empty-widget-slot {
+        min-height: 200px;
+    }
 }

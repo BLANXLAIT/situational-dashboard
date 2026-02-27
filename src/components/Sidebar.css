@@ -1,12 +1,13 @@
 .sidebar {
     width: 260px;
+    min-width: 260px;
     margin: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg);
     display: flex;
     flex-direction: column;
-    /* Override glass-panel padding if needed, but it's not set. We'll set our own: */
     padding: var(--radius-lg);
     position: relative;
     z-index: 20;
+    flex-shrink: 0;
 }
 
 .sidebar-logo {
@@ -21,6 +22,7 @@
 .logo-icon {
     width: 32px;
     height: 32px;
+    flex-shrink: 0;
     background: linear-gradient(135deg, var(--color-accent), #8b5cf6, var(--color-success));
     border-radius: var(--radius-sm);
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
@@ -43,7 +45,28 @@
     letter-spacing: 0.15em;
     background: linear-gradient(to right, #fff, #a5b4fc);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    flex: 1;
+}
+
+/* Close button — hidden on desktop, shown on mobile */
+.sidebar-close-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+    margin-left: auto;
+}
+
+.sidebar-close-btn:hover {
+    color: var(--text-primary);
 }
 
 .sidebar-section {
@@ -113,4 +136,55 @@
     padding-top: var(--radius-lg);
     border-top: 1px solid var(--border-glass-hover);
     margin-top: auto;
+}
+
+/* Mobile overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 19;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ── Mobile breakpoint ────────────────────────────────────── */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100dvh;
+        margin: 0;
+        border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+        z-index: 200;
+        overflow-y: auto;
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        display: block;
+    }
+
+    .sidebar-close-btn {
+        display: flex;
+    }
 }

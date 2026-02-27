@@ -23,6 +23,14 @@
                 "function": "getSpaceWeather"
             },
             {
+                "source": "/api/alerts/gdacs",
+                "function": "getGdacsAlerts"
+            },
+            {
+                "source": "/api/macro",
+                "function": "getMacroData"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }

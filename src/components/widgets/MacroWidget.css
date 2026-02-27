@@ -1,0 +1,82 @@
+.macro-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+}
+
+.macro-card {
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.macro-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+}
+
+.macro-label {
+    font-size: 0.7rem;
+    color: var(--color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.macro-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.macro-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.macro-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.macro-change.positive {
+    background: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success);
+}
+
+.macro-change.negative {
+    background: rgba(var(--color-error-rgb), 0.1);
+    color: var(--color-error);
+}
+
+.macro-sparkline-container {
+    height: 30px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.macro-sparkline {
+    width: 100%;
+    height: 100%;
+}
+
+.macro-date {
+    font-size: 0.6rem;
+    color: var(--color-text-dim);
+    text-align: right;
+    margin-top: -4px;
+}
+
+@media (max-width: 480px) {
+    .macro-grid {
+        grid-template-columns: 1fr;
+    }
+}

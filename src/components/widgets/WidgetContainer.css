@@ -92,3 +92,17 @@
     display: flex;
     flex-direction: column;
 }
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    /* Always show widget actions on touch — no hover available */
+    .widget-actions {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .widget-content {
+        padding: 14px;
+    }
+}

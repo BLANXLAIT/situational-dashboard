@@ -1,0 +1,172 @@
+/* ── Filter bar ───────────────────────────────────────────── */
+.gdacs-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 14px;
+    border-bottom: 1px solid var(--border-glass-hover);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.gdacs-filter-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.gdacs-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.level-pill {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.level-pill:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Active states per level */
+.level-pill--red.active {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.level-pill--orange.active {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #fcd34d;
+}
+
+.level-pill--green.active {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
+}
+
+/* ── Alert cards ──────────────────────────────────────────── */
+.gdacs-alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gdacs-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass-hover);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all var(--transition-fast);
+}
+
+.gdacs-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(3px);
+}
+
+.gdacs-card.gdacs-red {
+    border-left-color: var(--color-danger);
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.08) 0%, rgba(255, 255, 255, 0.03) 40%);
+}
+
+.gdacs-card.gdacs-orange {
+    border-left-color: var(--color-warning);
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.07) 0%, rgba(255, 255, 255, 0.03) 40%);
+}
+
+.gdacs-card.gdacs-green {
+    border-left-color: var(--color-success);
+}
+
+/* Card header */
+.gdacs-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.gdacs-type-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.gdacs-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Card body */
+.gdacs-title {
+    font-size: 0.92rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.gdacs-severity {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+/* Card footer */
+.gdacs-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    gap: 8px;
+}
+
+.gdacs-country {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gdacs-report-link {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.gdacs-report-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
