@@ -15,6 +15,10 @@
                 "function": "testPing"
             },
             {
+                "source": "/api/analyst/config",
+                "function": "getAnalystConfig"
+            },
+            {
                 "source": "/api/analyst/narrative",
                 "function": "getSituationNarrative"
             },

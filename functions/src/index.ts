@@ -6,7 +6,7 @@ import { getSpaceWeatherAlerts } from "./geology/spaceweather";
 import { getGdacsDisasters } from "./disasters/gdacs";
 import { getMacroEconomicData } from "./finance/fred";
 import { aggregateGlobalState } from "./analyst/consolidator";
-import { generateNarrative } from "./analyst/gemini";
+import { generateNarrative, ANALYST_CONFIG } from "./analyst/gemini";
 
 // Set strict CORS policy to prevent unauthorized web clients from draining quotas
 const ALLOWED_ORIGINS = [
@@ -90,6 +90,11 @@ export const getMacroData = onRequest({
         logger.error("Error fetching macro data:", error);
         response.status(500).json({ error: "Failed to fetch macro data" });
     }
+});
+
+// Endpoint to return current AI analyst configuration
+export const getAnalystConfig = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, (request, response) => {
+    response.json(ANALYST_CONFIG);
 });
 
 /**

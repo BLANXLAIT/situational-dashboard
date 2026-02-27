@@ -31,6 +31,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/macro/, '')
       },
+      '/api/analyst/config': {
+        target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getAnalystConfig',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/analyst\/config/, '')
+      },
       '/api/analyst/narrative': {
         target: 'http://127.0.0.1:5001/saam-dashboard-1772190712/us-central1/getSituationNarrative',
         changeOrigin: true,

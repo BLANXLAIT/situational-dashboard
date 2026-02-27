@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from './components/Dashboard';
 import DataSourcesPage from './components/DataSourcesPage';
+import AIConfigPage from './components/AIConfigPage';
 import Sidebar from './components/Sidebar';
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
           />
+        ) : activeView === 'aiconfig' ? (
+          <AIConfigPage setSidebarOpen={setSidebarOpen} />
         ) : (
           <DataSourcesPage
             setSidebarOpen={setSidebarOpen}
