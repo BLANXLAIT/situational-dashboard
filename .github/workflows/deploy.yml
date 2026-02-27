@@ -10,11 +10,13 @@ permissions:
   id-token: write
 
 jobs:
-  test:
+  test-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,15 +36,26 @@ jobs:
       - name: Run functions tests
         run: cd functions && npm test
 
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Detect what changed
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          if echo "$CHANGED" | grep -q '^functions/'; then
+            echo "functions=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "functions=false" >> "$GITHUB_OUTPUT"
+          fi
+          if echo "$CHANGED" | grep -qE '^(src/|index\.html|vite\.config|package\.json|firebase\.json)'; then
+            echo "hosting=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hosting=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Authenticate to Google Cloud
+        if: steps.changes.outputs.functions == 'true' || steps.changes.outputs.hosting == 'true'
         id: auth
         uses: google-github-actions/auth@v2
         with:
@@ -50,23 +63,28 @@ jobs:
           workload_identity_provider: 'projects/146869023108/locations/global/workloadIdentityPools/github-pool/providers/github-oidc-v2'
           service_account: 'github-ci@github-ci-blanxlait.iam.gserviceaccount.com'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Build frontend
+        if: steps.changes.outputs.hosting == 'true'
         run: npm run build
 
-      - name: Install functions dependencies
-        run: cd functions && npm ci
-
       - name: Build functions
+        if: steps.changes.outputs.functions == 'true'
         run: cd functions && npm run build
 
+      - name: Determine deploy targets
+        if: steps.changes.outputs.functions == 'true' || steps.changes.outputs.hosting == 'true'
+        id: targets
+        run: |
+          TARGETS=""
+          if [ "${{ steps.changes.outputs.hosting }}" = "true" ]; then
+            TARGETS="hosting"
+          fi
+          if [ "${{ steps.changes.outputs.functions }}" = "true" ]; then
+            [ -n "$TARGETS" ] && TARGETS="$TARGETS,"
+            TARGETS="${TARGETS}functions"
+          fi
+          echo "deploy_targets=$TARGETS" >> "$GITHUB_OUTPUT"
+
       - name: Deploy to Firebase
-        run: npx firebase-tools deploy --project saam-dashboard-1772190712 --non-interactive
+        if: steps.changes.outputs.functions == 'true' || steps.changes.outputs.hosting == 'true'
+        run: npx firebase-tools deploy --only ${{ steps.targets.outputs.deploy_targets }} --project saam-dashboard-1772190712 --non-interactive
