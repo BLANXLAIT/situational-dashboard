@@ -27,6 +27,7 @@ export async function generateNarrative(apiKey: string, context: any) {
         return response.text();
     } catch (error) {
         logger.error("Gemini Narrative generation failed:", error);
-        throw new Error("Failed to generate situation narrative.");
+        const errorMessage = error instanceof Error ? error.message : "Unknown error in Gemini";
+        throw new Error(`Analyst generation failed: ${errorMessage}`);
     }
 }
