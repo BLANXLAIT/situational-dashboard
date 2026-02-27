@@ -8,7 +8,7 @@ const SOURCES = [
         url: 'https://fred.stlouisfed.org/',
         frequency: '60 Minutes',
         domain: 'Finance',
-        description: 'U.S. economic indicators including Real GDP, Unemployment Rate, CPI, and Fed Funds Rate. Leverages FRED v2 API for bulk telemetry.',
+        description: 'U.S. economic indicators including Real GDP, Unemployment Rate, CPI, and Fed Funds Rate. FRED provides access to 840,000+ time series from 118 sources — one of the largest open economic datasets in the world.',
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="20" x2="12" y2="10" /><line x1="18" y1="20" x2="18" y2="4" /><line x1="6" y1="20" x2="6" y2="16" /></svg>
     },
     {
@@ -62,7 +62,7 @@ const SOURCES = [
         url: 'https://fred.stlouisfed.org/',
         frequency: '30 Minutes',
         domain: 'Finance',
-        description: 'Daily commodity prices including WTI/Brent crude oil, gold, natural gas, US gasoline, and the US Dollar Index. Sourced from FRED with 30-day sparkline history.',
+        description: 'Commodity prices and indices including WTI/Brent crude oil, natural gas, US gasoline, US Dollar Index, and Small Arms Ammunition PPI. Sourced from FRED with 30-day sparkline history.',
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M2 12h20" /><path d="m4.93 4.93 14.14 14.14" /><path d="m4.93 19.07 14.14-14.14" /></svg>
     },
     {
