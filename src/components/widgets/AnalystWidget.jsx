@@ -24,6 +24,11 @@ export default function AnalystWidget() {
             if (data.error) {
                 throw new Error(data.error);
             }
+            if (data.pending) {
+                setNarrative('');
+                setError('Narrative generation is pending. The first analysis will appear within a few minutes.');
+                return;
+            }
             setNarrative(data.narrative);
             setLastUpdated(new Date(data.timestamp));
             setCached(!!data.cached);
