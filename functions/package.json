@@ -4,9 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "serve": "npm run build && firebase emulators:start --only functions"
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,8 @@
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^10.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": "22"

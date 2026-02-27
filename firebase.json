@@ -19,6 +19,10 @@
                 "function": "getIntelligenceStream"
             },
             {
+                "source": "/api/alerts/space",
+                "function": "getSpaceWeather"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }
