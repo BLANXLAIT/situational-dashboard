@@ -1,14 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import WidgetContainer from './WidgetContainer';
 import './GeoWidget.css';
 
-const ALERTS = [
-    { id: 1, type: 'Earthquake', severity: 'high', title: 'M 6.4 - 12km NNE of Hualien City, Taiwan', time: '10 mins ago', desc: 'Tsunami warning issued for coastal regions. Expected impact minimal.' },
-    { id: 2, type: 'Weather', severity: 'medium', title: 'Severe Thunderstorm Warning', time: '1 hr ago', desc: 'Expected hail and wind gusts up to 60mph. Travel disruptions likely.' },
-    { id: 3, type: 'Volcano', severity: 'low', title: 'Mt. Etna Activity Increasing', time: '4 hrs ago', desc: 'Ash emissions detected, aviation code yellow. Monitoring ongoing.' }
-];
-
 export default function GeoWidget({ onRemove }) {
+    const [alerts, setAlerts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchAlerts() {
+            try {
+                // Fetch from our local Vite dev server which will be proxied to the Functions emulator,
+                // or in production, relative to the Firebase Hosting domain.
+                // Wait, for local dev without firebase hosting emulator, Vite needs a proxy setup.
+                // Let's configure vite proxy or just use the full firebase emulator URL if in dev.
+                // Actually, easiest is to hit the emulator directly if running in dev, or local Vite proxy.
+                const isDev = import.meta.env.DEV;
+                // In Vite, proxying is best set in vite.config.js
+                const response = await fetch('/api/alerts/geology');
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setAlerts(data.alerts);
+            } catch (e) {
+                console.error("Failed to fetch geologic alerts.", e);
+                setError("Unable to connect to Geologic Intelligence Feed. Retrying soon...");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchAlerts();
+        // Refresh every 5 minutes
+        const interval = setInterval(fetchAlerts, 5 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <WidgetContainer
             title="Geologic & Climate"
@@ -17,18 +47,26 @@ export default function GeoWidget({ onRemove }) {
             onRemove={onRemove}
         >
             <div className="geo-alerts-list">
-                {ALERTS.map(alert => (
-                    <div key={alert.id} className={`alert-card severity-${alert.severity}`}>
-                        <div className="alert-header">
-                            <span className="alert-type">
-                                <span className="dot"></span> {alert.type}
-                            </span>
-                            <span className="alert-time">{alert.time}</span>
+                {loading ? (
+                    <div className="loading-state">Syncing satellite telemetry...</div>
+                ) : error ? (
+                    <div className="error-state">{error}</div>
+                ) : alerts.length === 0 ? (
+                    <div className="empty-state">No significant global alerts.</div>
+                ) : (
+                    alerts.map(alert => (
+                        <div key={alert.id} className={`alert-card severity-${alert.severity}`}>
+                            <div className="alert-header">
+                                <span className="alert-type">
+                                    <span className="dot"></span> {alert.type}
+                                </span>
+                                <span className="alert-time">{alert.time}</span>
+                            </div>
+                            <h4 className="alert-title">{alert.title}</h4>
+                            <p className="alert-desc">{alert.desc}</p>
                         </div>
-                        <h4 className="alert-title">{alert.title}</h4>
-                        <p className="alert-desc">{alert.desc}</p>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </WidgetContainer>
     );

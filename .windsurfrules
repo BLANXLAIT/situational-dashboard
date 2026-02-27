@@ -1,0 +1,5 @@
+Always read the CONTEXT.md file in the root of this project before beginning any work. 
+
+It contains our strict architectural constraints, technology stack rules (Node 22, TypeScript, Firebase v2 API design), and security mandates (CORS).
+
+If you are asked to create a new component, write a new Firebase Function, or alter the UI, you MUST verify that your plan aligns with the rules established in CONTEXT.md.

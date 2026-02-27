@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import WidgetContainer from './WidgetContainer';
 import './NewsStreamWidget.css';
 
-const NEWS_ITEMS = [
-    { id: 1, source: 'AI Summary', domain: 'Tech & AI', title: 'AGI Timelines Revised', summary: 'Multiple research labs report unexpected breakthroughs in self-improving reasoning models. Hardware constraints remain the primary bottleneck.', time: 'Just now', score: 98 },
-    { id: 2, source: 'Geopolitics', domain: 'Global Relations', title: 'New Trade Agreement in SEA', summary: 'Five Southeast Asian nations sign semiconductor trade pact, attempting to bypass existing embargoes. Markets reacting to potential supply chain shifts.', time: '35 mins ago', score: 85 },
-    { id: 3, source: 'Business', domain: 'Finance', title: 'Central Bank Rate Decision', summary: 'Interest rates held steady; forward guidance suggests easing in Q3. Equity markets reacting positively across the board.', time: '2 hrs ago', score: 92 },
-];
-
 export default function NewsStreamWidget({ onRemove }) {
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchNews() {
+            try {
+                const response = await fetch('/api/alerts/intelligence');
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setNews(data.stream);
+            } catch (e) {
+                console.error("Failed to fetch intelligence stream.", e);
+                setError("Unable to connect to Global Intelligence Feed.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchNews();
+        // Refresh every 10 minutes (HN changes slower than earthquake alerts)
+        const interval = setInterval(fetchNews, 10 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <WidgetContainer
             title="Intelligence Stream"
@@ -17,22 +40,30 @@ export default function NewsStreamWidget({ onRemove }) {
             onRemove={onRemove}
         >
             <div className="news-stream flex-column gap-md">
-                {NEWS_ITEMS.map(item => (
-                    <div key={item.id} className="news-card">
-                        <div className="news-meta">
-                            <span className="news-domain">{item.domain}</span>
-                            <span className="news-time">{item.time}</span>
-                        </div>
-                        <h4 className="news-title">{item.title}</h4>
-                        <p className="news-summary">{item.summary}</p>
-                        <div className="news-footer">
-                            <span className="news-source">{item.source}</span>
-                            <div className="news-score-badge">
-                                Insight {item.score}
+                {loading ? (
+                    <div className="loading-state" style={{ color: 'var(--text-secondary)' }}>Intercepting and decoding signals...</div>
+                ) : error ? (
+                    <div className="error-state" style={{ color: 'var(--color-danger)' }}>{error}</div>
+                ) : news.length === 0 ? (
+                    <div className="empty-state">No significant intelligence events detected.</div>
+                ) : (
+                    news.map(item => (
+                        <div key={item.id} className="news-card">
+                            <div className="news-meta">
+                                <span className="news-domain">{item.domain}</span>
+                                <span className="news-time">{item.time}</span>
+                            </div>
+                            <h4 className="news-title">{item.title}</h4>
+                            <p className="news-summary">{item.summary}</p>
+                            <div className="news-footer">
+                                <span className="news-source">{item.source}</span>
+                                <div className="news-score-badge">
+                                    Insight {item.score}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </WidgetContainer>
     );

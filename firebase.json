@@ -1,4 +1,7 @@
 {
+    "functions": {
+        "source": "functions"
+    },
     "hosting": {
         "public": "dist",
         "ignore": [
@@ -7,6 +10,14 @@
             "**/node_modules/**"
         ],
         "rewrites": [
+            {
+                "source": "/api/alerts/geology",
+                "function": "getGeologicAlerts"
+            },
+            {
+                "source": "/api/alerts/intelligence",
+                "function": "getIntelligenceStream"
+            },
             {
                 "source": "**",
                 "destination": "/index.html"
