@@ -194,6 +194,7 @@ export const generateSituationNarrative = onSchedule({
 export const getSituationNarrative = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
+    timeoutSeconds: 300,
     secrets: ["FRED_API_KEY", "GEMINI_API_KEY"],
 }, async (request, response) => {
     try {
