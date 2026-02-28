@@ -15,14 +15,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Detect what changed
+        uses: dorny/paths-filter@v3
+        id: changes
         with:
-          fetch-depth: 2
+          filters: |
+            hosting:
+              - 'src/**'
+              - 'index.html'
+              - 'vite.config.*'
+              - 'package.json'
+              - 'firebase.json'
+            functions:
+              - 'functions/**'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -35,24 +50,6 @@ jobs:
 
       - name: Run functions tests
         run: cd functions && npm test
-
-      - name: Detect what changed
-        id: changes
-        run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD)
-          echo "files<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$CHANGED" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          if echo "$CHANGED" | grep -q '^functions/'; then
-            echo "functions=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "functions=false" >> "$GITHUB_OUTPUT"
-          fi
-          if echo "$CHANGED" | grep -qE '^(src/|index\.html|vite\.config|package\.json|firebase\.json)'; then
-            echo "hosting=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "hosting=false" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Authenticate to Google Cloud
         if: steps.changes.outputs.functions == 'true' || steps.changes.outputs.hosting == 'true'
