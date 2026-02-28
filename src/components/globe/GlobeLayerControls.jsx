@@ -6,9 +6,11 @@ export default function GlobeLayerControls({ layers, onToggle, eventCounts }) {
         <div className="globe-layer-controls">
             {Object.keys(LAYER_LABELS).map(key => (
                 <button
+                    type="button"
                     key={key}
                     className={`globe-layer-pill ${layers[key] ? 'active' : ''}`}
                     onClick={() => onToggle(key)}
+                    aria-pressed={layers[key]}
                     style={{
                         '--pill-color': LAYER_COLORS[key],
                     }}

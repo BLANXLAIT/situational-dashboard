@@ -6,6 +6,10 @@ import GlobeEventPanel from './GlobeEventPanel';
 import { LAYER_COLORS, markerSize, markerAltitude, isRecent } from './globeConfig';
 import './ThreatGlobe.css';
 
+function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 export default function ThreatGlobe() {
     const globeRef = useRef();
     const containerRef = useRef();
@@ -32,7 +36,7 @@ export default function ThreatGlobe() {
         return () => ro.disconnect();
     }, []);
 
-    // Slow auto-rotate, stop on interaction
+    // Slow auto-rotate (OrbitControls stops auto-rotate automatically on user drag)
     useEffect(() => {
         const globe = globeRef.current;
         if (!globe) return;
@@ -47,7 +51,15 @@ export default function ThreatGlobe() {
     }, []);
 
     const toggleLayer = useCallback((key) => {
-        setLayers(prev => ({ ...prev, [key]: !prev[key] }));
+        setLayers(prev => {
+            const next = { ...prev, [key]: !prev[key] };
+            // Clear selection/hover if the toggled-off layer owns them
+            if (!next[key]) {
+                setSelectedEvent(s => s?.source === key ? null : s);
+                setHoveredEvent(h => h?.source === key ? null : h);
+            }
+            return next;
+        });
     }, []);
 
     // Filter events by active layers and exclude global events from point rendering
@@ -113,8 +125,8 @@ export default function ThreatGlobe() {
                     pointAltitude={d => markerAltitude(d.severity)}
                     pointLabel={d => `
                         <div class="globe-tooltip">
-                            <strong>${d.title}</strong>
-                            <span>${d.type}</span>
+                            <strong>${escapeHtml(d.title)}</strong>
+                            <span>${escapeHtml(d.type)}</span>
                         </div>
                     `}
                     onPointClick={d => setSelectedEvent(d)}

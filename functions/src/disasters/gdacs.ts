@@ -82,7 +82,7 @@ export async function getGdacsDisasters(): Promise<GdacsAlert[]> {
             country: p.country || "Unknown",
             severity: p.severitydata?.severitytext || "",
             time: timeString,
-            timestamp: date.toISOString(),
+            timestamp: isNaN(date.getTime()) ? p.fromdate : date.toISOString(),
             lat: coords?.[1] ?? null,
             lng: coords?.[0] ?? null,
             reportUrl: p.url?.report || `https://www.gdacs.org/report.aspx?eventid=${p.eventid}&eventtype=${p.eventtype}`,
