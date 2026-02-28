@@ -142,7 +142,8 @@ export const testPing = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, 
 export const getMarketData = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
-    secrets: ["TWELVE_DATA_API_KEY"]
+    secrets: ["TWELVE_DATA_API_KEY"],
+    timeoutSeconds: 120
 }, async (request, response) => {
     logger.info("Fetching market quotes from Twelve Data...");
     const apiKey = process.env.TWELVE_DATA_API_KEY;
@@ -166,7 +167,8 @@ export const getMarketData = onRequest({
 export const getForexRates = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
-    secrets: ["TWELVE_DATA_API_KEY"]
+    secrets: ["TWELVE_DATA_API_KEY"],
+    timeoutSeconds: 120
 }, async (request, response) => {
     logger.info("Fetching forex rates from Twelve Data...");
     const apiKey = process.env.TWELVE_DATA_API_KEY;

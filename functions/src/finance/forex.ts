@@ -41,7 +41,7 @@ export async function getForexRates(apiKey: string): Promise<ForexRate[]> {
     logger.info("Fetching forex rates from Twelve Data...");
 
     const symbols = FOREX_PAIRS.map((p) => p.symbol).join(",");
-    const url = `${TWELVE_DATA_BASE_URL}/quote?symbol=${encodeURIComponent(symbols)}&apikey=${apiKey}`;
+    const url = `${TWELVE_DATA_BASE_URL}/quote?symbol=${symbols}&apikey=${apiKey}`;
 
     const response = await fetch(url);
     if (!response.ok) {
