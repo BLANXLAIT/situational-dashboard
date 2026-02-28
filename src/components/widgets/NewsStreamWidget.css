@@ -7,6 +7,24 @@
     gap: 16px;
 }
 
+.news-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-external-icon {
+    display: inline-block;
+    margin-left: 6px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    vertical-align: middle;
+}
+
+.news-card-link:hover .news-external-icon {
+    opacity: 1;
+}
+
 .news-card {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-glass-hover);

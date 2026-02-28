@@ -59,7 +59,8 @@ export async function getTopTechNews() {
                     source: 'Hacker News',
                     domain: 'Tech & AI',
                     title: story.title,
-                    summary: story.url ? `Source Link: ${story.url}` : 'No external link provided.',
+                    url: story.url ?? null,
+                    summary: '',
                     time: timeString,
                     score: story.score
                 };
