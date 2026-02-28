@@ -28,6 +28,9 @@ export interface GdacsAlert {
     country: string;
     severity: string;      // human text, e.g. "Magnitude 7.7M, Depth:10km"
     time: string;          // formatted date string
+    timestamp: string;     // ISO 8601
+    lat: number | null;
+    lng: number | null;
     reportUrl: string;     // link to GDACS report page
 }
 
@@ -68,6 +71,8 @@ export async function getGdacsDisasters(): Promise<GdacsAlert[]> {
                 year: "numeric",
             });
 
+        const coords = feature.geometry?.coordinates;
+
         return {
             id: `gdacs-${p.eventtype}-${p.eventid}`,
             type: EVENT_TYPE_LABELS[p.eventtype] ?? p.eventtype,
@@ -77,6 +82,9 @@ export async function getGdacsDisasters(): Promise<GdacsAlert[]> {
             country: p.country || "Unknown",
             severity: p.severitydata?.severitytext || "",
             time: timeString,
+            timestamp: date.toISOString(),
+            lat: coords?.[1] ?? null,
+            lng: coords?.[0] ?? null,
             reportUrl: p.url?.report || `https://www.gdacs.org/report.aspx?eventid=${p.eventid}&eventtype=${p.eventtype}`,
         };
     });

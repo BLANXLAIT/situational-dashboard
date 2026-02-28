@@ -33,6 +33,10 @@ export async function getSignificantEarthquakes() {
                 severity,
                 title: feature.properties.title,
                 time: timeString,
+                timestamp: date.toISOString(),
+                lat: feature.geometry.coordinates[1],
+                lng: feature.geometry.coordinates[0],
+                mag,
                 desc
             };
         });

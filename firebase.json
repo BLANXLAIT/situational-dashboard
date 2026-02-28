@@ -55,6 +55,10 @@
                 "function": "getInfluenzaData"
             },
             {
+                "source": "/api/globe/events",
+                "function": "getGlobeEvents"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }

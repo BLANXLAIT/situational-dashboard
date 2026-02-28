@@ -14,6 +14,7 @@ import { getCommodityPrices } from "./finance/commodities";
 import { getOutbreakAlerts, getInfluenzaTrends } from "./health/diseases";
 import { aggregateGlobalState } from "./analyst/consolidator";
 import { generateNarrative, ANALYST_CONFIG } from "./analyst/gemini";
+import { aggregateGlobeData } from "./globe/aggregator";
 
 // Set strict CORS policy to prevent unauthorized web clients from draining quotas
 const ALLOWED_ORIGINS = [
@@ -115,6 +116,18 @@ export const getInfluenzaData = onRequest({ cors: ALLOWED_ORIGINS, invoker: "pub
     } catch (error) {
         logger.error("Error fetching influenza data:", error);
         response.status(500).json({ error: "Failed to fetch influenza data" });
+    }
+});
+
+// Endpoint to fetch aggregated globe event data
+export const getGlobeEvents = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, async (request, response) => {
+    logger.info("Fetching aggregated globe events...");
+    try {
+        const events = await aggregateGlobeData();
+        response.json({ events });
+    } catch (error) {
+        logger.error("Error fetching globe events:", error);
+        response.status(500).json({ error: "Failed to fetch globe events" });
     }
 });
 
