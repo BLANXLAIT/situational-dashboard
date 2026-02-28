@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Core Colors */
+  /* Core Colors — Dark mode defaults */
   --bg-primary: #08080a;
   --bg-secondary: #121318;
   --bg-glass: rgba(18, 19, 24, 0.7);
   --bg-glass-hover: rgba(28, 30, 38, 0.85);
-  
+  /* Solid-ish overlay (globe panels, tooltips) */
+  --bg-overlay: rgba(8, 8, 10, 0.88);
+  /* Very subtle tint for icon/header backgrounds */
+  --bg-subtle: rgba(255, 255, 255, 0.04);
+  /* Hover tint for nav items and dropdown items */
+  --bg-hover-subtle: rgba(255, 255, 255, 0.08);
+
   --border-glass: rgba(255, 255, 255, 0.05);
   --border-glass-hover: rgba(255, 255, 255, 0.12);
   
@@ -42,6 +48,26 @@
   --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Light Mode Tokens ─────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #e2e6ea;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --bg-glass-hover: rgba(255, 255, 255, 0.92);
+  --bg-overlay: rgba(248, 249, 250, 0.92);
+  --bg-subtle: rgba(0, 0, 0, 0.04);
+  --bg-hover-subtle: rgba(0, 0, 0, 0.05);
+
+  --border-glass: rgba(0, 0, 0, 0.07);
+  --border-glass-hover: rgba(0, 0, 0, 0.13);
+
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -57,6 +83,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
   
   /* Subtle ambient background glow */
   background-image: 
@@ -101,4 +128,12 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
 }

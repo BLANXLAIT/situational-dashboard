@@ -3,11 +3,13 @@ import Dashboard from './components/Dashboard';
 import DataSourcesPage from './components/DataSourcesPage';
 import AIConfigPage from './components/AIConfigPage';
 import Sidebar from './components/Sidebar';
+import { useTheme } from './hooks/useTheme';
 
 function App() {
   const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' or 'sources'
   const [activeDomain, setActiveDomain] = useState('All');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="dashboard-layout">
@@ -26,6 +28,8 @@ function App() {
             activeView={activeView}
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
+            theme={theme}
+            toggleTheme={toggleTheme}
           />
         ) : activeView === 'aiconfig' ? (
           <AIConfigPage setSidebarOpen={setSidebarOpen} />
