@@ -11,6 +11,8 @@ import { getSpaceWeatherAlerts } from "./geology/spaceweather";
 import { getGdacsDisasters } from "./disasters/gdacs";
 import { getMacroEconomicData } from "./finance/fred";
 import { getCommodityPrices } from "./finance/commodities";
+import { getMarketQuotes } from "./finance/markets";
+import { getForexRates as fetchForexRates } from "./finance/forex";
 import { getOutbreakAlerts, getInfluenzaTrends } from "./health/diseases";
 import { aggregateGlobalState } from "./analyst/consolidator";
 import { generateNarrative, ANALYST_CONFIG } from "./analyst/gemini";
@@ -134,6 +136,56 @@ export const getGlobeEvents = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publi
 // Test endpoint to verify connectivity
 export const testPing = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, (request, response) => {
     response.send("pong");
+});
+
+// Endpoint to fetch real-time market quotes (S&P 500, NASDAQ, etc.) from Twelve Data
+export const getMarketData = onRequest({
+    cors: ALLOWED_ORIGINS,
+    invoker: "public",
+    secrets: ["TWELVE_DATA_API_KEY"],
+    timeoutSeconds: 120
+}, async (request, response) => {
+    logger.info("Fetching market quotes from Twelve Data...");
+    const apiKey = process.env.TWELVE_DATA_API_KEY;
+
+    if (!apiKey) {
+        logger.error("TWELVE_DATA_API_KEY is not set in environment");
+        response.status(500).json({ error: "API Key not configured" });
+        return;
+    }
+
+    try {
+        const markets = await getMarketQuotes(apiKey);
+        response.json({ markets });
+    } catch (error) {
+        logger.error("Error fetching market data:", error);
+        response.status(500).json({ error: "Failed to fetch market data" });
+    }
+});
+
+// Endpoint to fetch foreign exchange rates from Twelve Data
+export const getForexRates = onRequest({
+    cors: ALLOWED_ORIGINS,
+    invoker: "public",
+    secrets: ["TWELVE_DATA_API_KEY"],
+    timeoutSeconds: 120
+}, async (request, response) => {
+    logger.info("Fetching forex rates from Twelve Data...");
+    const apiKey = process.env.TWELVE_DATA_API_KEY;
+
+    if (!apiKey) {
+        logger.error("TWELVE_DATA_API_KEY is not set in environment");
+        response.status(500).json({ error: "API Key not configured" });
+        return;
+    }
+
+    try {
+        const rates = await fetchForexRates(apiKey);
+        response.json({ rates });
+    } catch (error) {
+        logger.error("Error fetching forex rates:", error);
+        response.status(500).json({ error: "Failed to fetch forex rates" });
+    }
 });
 
 // Endpoint to fetch macro economic data from FRED
