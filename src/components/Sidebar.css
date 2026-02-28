@@ -50,6 +50,13 @@
     flex: 1;
 }
 
+[data-theme="light"] .sidebar-logo h2 {
+    background: linear-gradient(to right, #1e1b4b, #6366f1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 /* Close button — hidden on desktop, shown on mobile */
 .sidebar-close-btn {
     display: none;
@@ -112,7 +119,7 @@
 }
 
 .nav-item:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-hover-subtle);
     color: var(--text-primary);
     transform: translateX(2px);
 }

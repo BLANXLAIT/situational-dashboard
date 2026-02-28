@@ -40,7 +40,7 @@
     padding: 5px 12px;
     border: 1px solid var(--border-glass);
     border-radius: 20px;
-    background: rgba(18, 19, 24, 0.85);
+    background: var(--bg-overlay);
     color: var(--text-secondary);
     font-size: 12px;
     font-weight: 500;
@@ -67,7 +67,7 @@
 }
 
 .pill-badge {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover-subtle);
     padding: 1px 6px;
     border-radius: 10px;
     font-size: 10px;
@@ -84,7 +84,7 @@
     z-index: 10;
     padding: 16px;
     overflow-y: auto;
-    background: rgba(18, 19, 24, 0.9);
+    background: var(--bg-overlay);
     border: 1px solid var(--border-glass);
     border-radius: var(--radius-md, 12px);
     backdrop-filter: blur(12px);
@@ -122,7 +122,7 @@
 
 .event-panel-close:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover-subtle);
 }
 
 .event-panel-title {
@@ -154,7 +154,7 @@
 
 .event-panel-severity {
     height: 3px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover-subtle);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -189,7 +189,7 @@
     transform: translateX(-50%);
     z-index: 10;
     padding: 6px 14px;
-    background: rgba(18, 19, 24, 0.9);
+    background: var(--bg-overlay);
     border: 1px solid var(--border-glass);
     border-radius: 8px;
     font-size: 12px;
@@ -204,12 +204,12 @@
 
 /* Globe tooltip (rendered by globe.gl as HTML overlay) */
 .globe-tooltip {
-    background: rgba(18, 19, 24, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-overlay);
+    border: 1px solid var(--border-glass-hover);
     border-radius: 8px;
     padding: 8px 12px;
     font-size: 12px;
-    color: #f8f8f8;
+    color: var(--text-primary);
     backdrop-filter: blur(8px);
     max-width: 240px;
 }
@@ -222,6 +222,6 @@
 
 .globe-tooltip span {
     display: block;
-    color: #9494a0;
+    color: var(--text-secondary);
     font-size: 11px;
 }
