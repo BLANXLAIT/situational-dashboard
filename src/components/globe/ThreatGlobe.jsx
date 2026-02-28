@@ -8,7 +8,9 @@ import './ThreatGlobe.css';
 
 export default function ThreatGlobe() {
     const globeRef = useRef();
+    const containerRef = useRef();
     const { events, loading, error } = useGlobeData();
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [hoveredEvent, setHoveredEvent] = useState(null);
     const [layers, setLayers] = useState({
@@ -17,6 +19,18 @@ export default function ThreatGlobe() {
         noaa: true,
         who: true,
     });
+
+    // Track container size
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const ro = new ResizeObserver(([entry]) => {
+            const { width, height } = entry.contentRect;
+            setDimensions({ width, height });
+        });
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, []);
 
     // Slow auto-rotate, stop on interaction
     useEffect(() => {
@@ -67,7 +81,7 @@ export default function ThreatGlobe() {
     }, [events, layers.noaa]);
 
     return (
-        <div className="threat-globe-container glass-panel">
+        <div className="threat-globe-container glass-panel" ref={containerRef}>
             <GlobeLayerControls
                 layers={layers}
                 onToggle={toggleLayer}
@@ -81,37 +95,39 @@ export default function ThreatGlobe() {
                 <div className="globe-error">Failed to load: {error}</div>
             )}
 
-            <Globe
-                ref={globeRef}
-                globeImageUrl="/textures/earth-night.jpg"
-                backgroundColor="rgba(0,0,0,0)"
-                atmosphereColor={spaceWeatherActive ? '#6366f1' : '#3b82f6'}
-                atmosphereAltitude={0.15 + maxSpaceSeverity * 0.1}
-                showAtmosphere={true}
-                // Points layer
-                pointsData={pointEvents}
-                pointLat="lat"
-                pointLng="lng"
-                pointColor={d => LAYER_COLORS[d.source] || '#fff'}
-                pointRadius={d => markerSize(d.severity)}
-                pointAltitude={d => markerAltitude(d.severity)}
-                pointLabel={d => `
-                    <div class="globe-tooltip">
-                        <strong>${d.title}</strong>
-                        <span>${d.type}</span>
-                    </div>
-                `}
-                onPointClick={d => setSelectedEvent(d)}
-                onPointHover={d => setHoveredEvent(d)}
-                // Rings layer — recent events pulse
-                ringsData={ringEvents}
-                ringLat="lat"
-                ringLng="lng"
-                ringColor={d => [LAYER_COLORS[d.source] || '#fff']}
-                ringMaxRadius={3}
-                ringPropagationSpeed={1.5}
-                ringRepeatPeriod={1200}
-            />
+            <div className="globe-wrapper">
+                {dimensions.width > 0 && <Globe
+                    ref={globeRef}
+                    width={dimensions.width}
+                    height={dimensions.height}
+                    globeImageUrl="/textures/earth-night.jpg"
+                    backgroundColor="rgba(0,0,0,0)"
+                    atmosphereColor={spaceWeatherActive ? '#6366f1' : '#3b82f6'}
+                    atmosphereAltitude={0.15 + maxSpaceSeverity * 0.1}
+                    showAtmosphere={true}
+                    pointsData={pointEvents}
+                    pointLat="lat"
+                    pointLng="lng"
+                    pointColor={d => LAYER_COLORS[d.source] || '#fff'}
+                    pointRadius={d => markerSize(d.severity)}
+                    pointAltitude={d => markerAltitude(d.severity)}
+                    pointLabel={d => `
+                        <div class="globe-tooltip">
+                            <strong>${d.title}</strong>
+                            <span>${d.type}</span>
+                        </div>
+                    `}
+                    onPointClick={d => setSelectedEvent(d)}
+                    onPointHover={d => setHoveredEvent(d)}
+                    ringsData={ringEvents}
+                    ringLat="lat"
+                    ringLng="lng"
+                    ringColor={d => [LAYER_COLORS[d.source] || '#fff']}
+                    ringMaxRadius={3}
+                    ringPropagationSpeed={1.5}
+                    ringRepeatPeriod={1200}
+                />}
+            </div>
 
             <GlobeEventPanel
                 event={selectedEvent}

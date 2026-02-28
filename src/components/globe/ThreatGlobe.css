@@ -16,10 +16,10 @@
     }
 }
 
-/* Ensure the globe canvas fills the container */
-.threat-globe-container > div {
-    width: 100% !important;
-    height: 100% !important;
+/* The globe wrapper div that react-globe.gl creates */
+.globe-wrapper {
+    position: absolute;
+    inset: 0;
 }
 
 /* Layer controls — top-left overlay */

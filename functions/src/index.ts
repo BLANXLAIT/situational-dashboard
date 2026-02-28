@@ -120,7 +120,7 @@ export const getInfluenzaData = onRequest({ cors: ALLOWED_ORIGINS, invoker: "pub
 });
 
 // Endpoint to fetch aggregated globe event data
-export const getGlobeEvents = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, async (request, response) => {
+export const getGlobeEvents = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public", timeoutSeconds: 120 }, async (request, response) => {
     logger.info("Fetching aggregated globe events...");
     try {
         const events = await aggregateGlobeData();
