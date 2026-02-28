@@ -75,3 +75,5 @@ firebase deploy --project saam-dashboard-1772190712
 ## Deployment
 
 Automated via GitHub Actions (`.github/workflows/deploy.yml`): push to `main` → test → deploy. Uses OIDC/WIF authentication to GCP (service account: `github-ci@github-ci-blanxlait.iam.gserviceaccount.com`).
+
+**Never push directly to `main`.** Always create a branch and open a PR, even for docs-only changes.
