@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Sidebar from './Sidebar';
 import FinanceWidget from './widgets/FinanceWidget';
 import GeoWidget from './widgets/GeoWidget';
@@ -11,6 +11,8 @@ import CommoditiesWidget from './widgets/CommoditiesWidget';
 import HealthAlertsWidget from './widgets/HealthAlertsWidget';
 import InfluenzaTrendWidget from './widgets/InfluenzaTrendWidget';
 import './Dashboard.css';
+
+const ThreatGlobe = lazy(() => import('./globe/ThreatGlobe'));
 
 const AVAILABLE_WIDGETS = [
     { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance' },
@@ -122,6 +124,10 @@ export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen })
 
                 </div>
             </header>
+
+            <Suspense fallback={<div className="glass-panel" style={{ height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, borderRadius: 'var(--radius-xl)' }}>Loading globe...</div>}>
+                <ThreatGlobe />
+            </Suspense>
 
             <div className="widget-grid">
                 {visibleWidgets.length === 0 ? (

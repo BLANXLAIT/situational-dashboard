@@ -54,6 +54,7 @@ export async function getSpaceWeatherAlerts() {
                 severity,
                 title,
                 time: timeString,
+                timestamp: date.toISOString(),
                 desc: message.split('\n').slice(0, 3).join(' ').substring(0, 160) + "..."
             };
         });
