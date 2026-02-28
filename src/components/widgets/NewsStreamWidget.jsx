@@ -47,12 +47,12 @@ export default function NewsStreamWidget({ onRemove }) {
                 ) : news.length === 0 ? (
                     <div className="empty-state">No significant intelligence events detected.</div>
                 ) : (
-                    news.map(item => (
+                    news.map(item => item.url ? (
                         <a
                             key={item.id}
-                            href={item.url || undefined}
-                            target={item.url ? '_blank' : undefined}
-                            rel={item.url ? 'noopener noreferrer' : undefined}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="news-card-link"
                         >
                             <div className="news-card">
@@ -62,13 +62,11 @@ export default function NewsStreamWidget({ onRemove }) {
                                 </div>
                                 <h4 className="news-title">
                                     {item.title}
-                                    {item.url && (
-                                        <svg className="news-external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                            <polyline points="15 3 21 3 21 9"/>
-                                            <line x1="10" y1="14" x2="21" y2="3"/>
-                                        </svg>
-                                    )}
+                                    <svg className="news-external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                        <polyline points="15 3 21 3 21 9"/>
+                                        <line x1="10" y1="14" x2="21" y2="3"/>
+                                    </svg>
                                 </h4>
                                 {item.summary && <p className="news-summary">{item.summary}</p>}
                                 <div className="news-footer">
@@ -79,6 +77,21 @@ export default function NewsStreamWidget({ onRemove }) {
                                 </div>
                             </div>
                         </a>
+                    ) : (
+                        <div key={item.id} className="news-card">
+                            <div className="news-meta">
+                                <span className="news-domain">{item.domain}</span>
+                                <span className="news-time">{item.time}</span>
+                            </div>
+                            <h4 className="news-title">{item.title}</h4>
+                            {item.summary && <p className="news-summary">{item.summary}</p>}
+                            <div className="news-footer">
+                                <span className="news-source">{item.source}</span>
+                                <div className="news-score-badge">
+                                    Insight {item.score}
+                                </div>
+                            </div>
+                        </div>
                     ))
                 )}
             </div>
