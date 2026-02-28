@@ -1,0 +1,67 @@
+.forex-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.forex-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass-hover);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all var(--transition-fast);
+}
+
+.forex-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.forex-pair {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+.forex-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.forex-rate {
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.forex-change {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.forex-change.up {
+    color: var(--color-success);
+}
+
+.forex-change.down {
+    color: var(--color-danger);
+}
+
+.forex-footer {
+    margin-top: 4px;
+    text-align: right;
+}
+
+.forex-delayed {
+    font-size: 0.75rem;
+    color: var(--text-muted, var(--text-secondary));
+    opacity: 0.7;
+}

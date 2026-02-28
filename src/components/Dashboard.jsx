@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Sidebar from './Sidebar';
 import FinanceWidget from './widgets/FinanceWidget';
+import ForexWidget from './widgets/ForexWidget';
 import GeoWidget from './widgets/GeoWidget';
 import NewsStreamWidget from './widgets/NewsStreamWidget';
 import SpaceWeatherWidget from './widgets/SpaceWeatherWidget';
@@ -16,6 +17,7 @@ const ThreatGlobe = lazy(() => import('./globe/ThreatGlobe'));
 
 const AVAILABLE_WIDGETS = [
     { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance' },
+    { id: 'forex', label: 'Foreign Exchange', component: ForexWidget, domain: 'Finance' },
     { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology', size: 'compact' },
     { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather', size: 'compact' },
     { id: 'news', label: 'Intelligence Stream', component: NewsStreamWidget, domain: 'Tech & AI' },

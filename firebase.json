@@ -39,6 +39,14 @@
                 "function": "getGdacsAlerts"
             },
             {
+                "source": "/api/markets",
+                "function": "getMarketData"
+            },
+            {
+                "source": "/api/forex",
+                "function": "getForexRates"
+            },
+            {
                 "source": "/api/macro",
                 "function": "getMacroData"
             },
