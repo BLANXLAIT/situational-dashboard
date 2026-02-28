@@ -97,9 +97,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: var(--radius-lg);
-    grid-auto-rows: minmax(320px, auto);
+    grid-auto-rows: auto;
     padding-bottom: var(--radius-xl);
 }
+
+.widget-grid > .widget-container { min-height: 320px; }
+.widget-grid > .widget-container.widget-compact { min-height: 220px; align-self: start; }
 
 .empty-widget-slot {
     display: flex;
@@ -200,7 +203,7 @@
 
     .widget-grid {
         grid-template-columns: 1fr;
-        grid-auto-rows: minmax(260px, auto);
+        grid-auto-rows: auto;
         gap: var(--radius-md);
     }
 

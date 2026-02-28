@@ -1,9 +1,9 @@
 import React from 'react';
 import './WidgetContainer.css';
 
-export default function WidgetContainer({ title, icon, color = 'var(--color-accent)', children, onRemove }) {
+export default function WidgetContainer({ title, icon, color = 'var(--color-accent)', children, onRemove, size = 'standard' }) {
     return (
-        <div className="glass-panel widget-container">
+        <div className={`glass-panel widget-container${size === 'compact' ? ' widget-compact' : ''}`}>
             <div className="widget-header">
                 <div className="widget-title" style={{ '--widget-color': color }}>
                     <div className="widget-icon">{icon}</div>

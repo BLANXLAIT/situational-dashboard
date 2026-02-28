@@ -16,15 +16,15 @@ const ThreatGlobe = lazy(() => import('./globe/ThreatGlobe'));
 
 const AVAILABLE_WIDGETS = [
     { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance' },
-    { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology' },
-    { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather' },
+    { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology', size: 'compact' },
+    { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather', size: 'compact' },
     { id: 'news', label: 'Intelligence Stream', component: NewsStreamWidget, domain: 'Tech & AI' },
     { id: 'gdacs', label: 'Global Disasters', component: GdacsWidget, domain: 'Geology' },
     { id: 'macro', label: 'Macro Economic', component: MacroWidget, domain: 'Finance' },
     { id: 'commodities', label: 'Commodity Prices', component: CommoditiesWidget, domain: 'Finance' },
     { id: 'analyst', label: 'AI Analyst', component: AnalystWidget, domain: 'Intelligence' },
     { id: 'healthAlerts', label: 'WHO Outbreak News', component: HealthAlertsWidget, domain: 'Health' },
-    { id: 'influenza', label: 'Influenza Trends', component: InfluenzaTrendWidget, domain: 'Health' },
+    { id: 'influenza', label: 'Influenza Trends', component: InfluenzaTrendWidget, domain: 'Health', size: 'compact' },
 ];
 
 const DEFAULT_LAYOUT = ['analyst', 'finance', 'news', 'geo', 'space', 'healthAlerts', 'commodities'];
@@ -136,8 +136,9 @@ export default function Dashboard({ activeDomain, sidebarOpen, setSidebarOpen })
                     </div>
                 ) : (
                     visibleWidgets.map(wId => {
-                        const WidgetComponent = AVAILABLE_WIDGETS.find(w => w.id === wId).component;
-                        return <WidgetComponent key={wId} onRemove={() => removeWidget(wId)} />;
+                        const widgetDef = AVAILABLE_WIDGETS.find(w => w.id === wId);
+                        const WidgetComponent = widgetDef.component;
+                        return <WidgetComponent key={wId} onRemove={() => removeWidget(wId)} size={widgetDef.size || 'standard'} />;
                     })
                 )}
             </div>
