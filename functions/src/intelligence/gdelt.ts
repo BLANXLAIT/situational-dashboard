@@ -58,17 +58,22 @@ export async function getGeopoliticalNews(): Promise<GdeltArticle[]> {
 
         const titleKey = article.title?.toLowerCase().trim();
         if (!titleKey || seenTitles.has(titleKey)) continue;
-        if (seenDomains.has(article.domain)) continue;
+
+        const domain = typeof article.domain === "string" ? article.domain.trim() : "";
+        if (!domain || seenDomains.has(domain)) continue;
+
+        const url = typeof article.url === "string" ? article.url.trim() : "";
+        if (!url) continue;
 
         seenTitles.add(titleKey);
-        seenDomains.add(article.domain);
+        seenDomains.add(domain);
 
         articles.push({
             title: article.title,
-            url: article.url,
-            domain: article.domain,
+            url,
+            domain,
             sourcecountry: article.sourcecountry ?? "",
-            seendate: article.seendate,
+            seendate: article.seendate ?? "",
         });
     }
 
