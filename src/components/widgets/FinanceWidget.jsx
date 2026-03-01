@@ -63,7 +63,7 @@ export default function FinanceWidget({ onRemove }) {
                     </div>
                     {lastUpdated && (
                         <div className="finance-footer">
-                            <span className="finance-delayed">Delayed 15 min · Updated {lastUpdated}</span>
+                            <span className="finance-delayed">Daily close via FRED · Updated {lastUpdated}</span>
                         </div>
                     )}
                 </>

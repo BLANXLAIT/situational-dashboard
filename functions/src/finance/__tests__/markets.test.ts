@@ -7,6 +7,15 @@ vi.mock('firebase-functions/logger', () => ({
     warn: vi.fn(),
 }));
 
+function makeFredResponse(seriesId: string, latestValue: string, prevValue: string, latestDate: string, prevDate: string) {
+    return {
+        observations: [
+            { date: latestDate, value: latestValue },
+            { date: prevDate, value: prevValue },
+        ],
+    };
+}
+
 describe('getMarketQuotes', () => {
     beforeEach(() => {
         vi.resetModules();
@@ -16,52 +25,50 @@ describe('getMarketQuotes', () => {
         vi.restoreAllMocks();
     });
 
-    it('returns market data parsed from Twelve Data batch response', async () => {
-        const mockResponse = {
-            SPY: { close: '5280.10', change: '25.40', percent_change: '0.48384', datetime: '2024-01-15' },
-            QQQ: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
-            DIA: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
-        };
-
-        global.fetch = vi.fn().mockResolvedValue({
-            ok: true,
-            json: async () => mockResponse,
+    it('returns market data parsed from FRED observations', async () => {
+        global.fetch = vi.fn().mockImplementation((url: string) => {
+            if (url.includes('SP500')) {
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('SP500', '5900.00', '5870.00', '2026-02-28', '2026-02-27') });
+            } else if (url.includes('NASDAQCOM')) {
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('NASDAQCOM', '19200.50', '19300.00', '2026-02-28', '2026-02-27') });
+            } else {
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('DJIA', '43500.00', '43200.00', '2026-02-28', '2026-02-27') });
+            }
         });
 
         const { getMarketQuotes } = await import('../markets');
         const result = await getMarketQuotes('test-api-key');
 
         expect(result).toHaveLength(3);
-        expect(result[0].symbol).toBe('SPY');
+        expect(result[0].symbol).toBe('SP500');
         expect(result[0].name).toBe('S&P 500');
-        expect(result[0].price).toBe('5280.10');
-        expect(result[0].changePct).toBe('+0.48%');
-        expect(result[1].changePct).toBe('-0.18%');
+        expect(result[0].price).toContain('5,900.00');
+        expect(result[0].changePct).toBe('+0.51%');
+        expect(result[1].changePct).toBe('-0.52%');
     });
 
-    it('returns N/A for symbols with error status', async () => {
-        const mockResponse = {
-            SPY: { status: 'error', message: 'symbol not found' },
-            QQQ: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
-            DIA: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
-        };
-
-        global.fetch = vi.fn().mockResolvedValue({
-            ok: true,
-            json: async () => mockResponse,
+    it('returns N/A when observation value is "."', async () => {
+        global.fetch = vi.fn().mockImplementation((url: string) => {
+            if (url.includes('SP500')) {
+                return Promise.resolve({ ok: true, json: async () => ({ observations: [{ date: '2026-02-28', value: '.' }] }) });
+            }
+            return Promise.resolve({ ok: true, json: async () => makeFredResponse('X', '100', '99', '2026-02-28', '2026-02-27') });
         });
 
         const { getMarketQuotes } = await import('../markets');
         const result = await getMarketQuotes('test-api-key');
 
         expect(result[0].price).toBe('N/A');
-        expect(result[1].price).toBe('16400.25');
+        expect(result[1].price).not.toBe('N/A');
     });
 
-    it('throws an error when the API returns a non-ok status', async () => {
-        global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 429 });
+    it('returns fallback when FRED API returns error', async () => {
+        global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500 });
 
         const { getMarketQuotes } = await import('../markets');
-        await expect(getMarketQuotes('test-api-key')).rejects.toThrow('Twelve Data API returned status: 429');
+        const result = await getMarketQuotes('test-api-key');
+
+        expect(result).toHaveLength(3);
+        result.forEach(q => expect(q.price).toBe('N/A'));
     });
 });
