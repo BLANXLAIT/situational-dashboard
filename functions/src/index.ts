@@ -155,18 +155,18 @@ export const testPing = onRequest({ cors: ALLOWED_ORIGINS, invoker: "public" }, 
     response.send("pong");
 });
 
-// Endpoint to fetch real-time market quotes (S&P 500, NASDAQ, etc.) from Twelve Data
+// Endpoint to fetch market index data (S&P 500, NASDAQ, Dow Jones) from FRED
 export const getMarketData = onRequest({
     cors: ALLOWED_ORIGINS,
     invoker: "public",
-    secrets: ["TWELVE_DATA_API_KEY"],
+    secrets: ["FRED_API_KEY"],
     timeoutSeconds: 120
 }, async (request, response) => {
-    logger.info("Fetching market quotes from Twelve Data...");
-    const apiKey = process.env.TWELVE_DATA_API_KEY;
+    logger.info("Fetching market index data from FRED...");
+    const apiKey = process.env.FRED_API_KEY;
 
     if (!apiKey) {
-        logger.error("TWELVE_DATA_API_KEY is not set in environment");
+        logger.error("FRED_API_KEY is not set in environment");
         response.status(500).json({ error: "API Key not configured" });
         return;
     }
