@@ -17,7 +17,7 @@ import './Dashboard.css';
 const ThreatGlobe = lazy(() => import('./globe/ThreatGlobe'));
 
 const AVAILABLE_WIDGETS = [
-    { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance' },
+    { id: 'finance', label: 'Global Markets', component: FinanceWidget, domain: 'Finance', size: 'compact' },
     { id: 'forex', label: 'Foreign Exchange', component: ForexWidget, domain: 'Finance' },
     { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology', size: 'compact' },
     { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather', size: 'compact' },
