@@ -18,18 +18,13 @@ interface CacheEntry {
 }
 
 let cache: CacheEntry | null = null;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
 const FOREX_PAIRS: { symbol: string; base: string; quote: string }[] = [
     { symbol: "EUR/USD", base: "EUR", quote: "USD" },
     { symbol: "GBP/USD", base: "GBP", quote: "USD" },
     { symbol: "USD/JPY", base: "USD", quote: "JPY" },
-    { symbol: "USD/CHF", base: "USD", quote: "CHF" },
-    { symbol: "AUD/USD", base: "AUD", quote: "USD" },
     { symbol: "USD/CAD", base: "USD", quote: "CAD" },
-    { symbol: "USD/BRL", base: "USD", quote: "BRL" },
-    { symbol: "USD/MXN", base: "USD", quote: "MXN" },
-    { symbol: "USD/INR", base: "USD", quote: "INR" },
 ];
 
 export async function getForexRates(apiKey: string): Promise<ForexRate[]> {
