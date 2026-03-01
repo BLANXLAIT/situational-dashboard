@@ -27,8 +27,8 @@ export default function FinanceWidget({ onRemove }) {
         };
 
         fetchMarkets();
-        // Refresh every 5 minutes to align with backend cache TTL
-        const interval = setInterval(fetchMarkets, 5 * 60 * 1000);
+        // Refresh every 15 minutes to align with backend cache TTL
+        const interval = setInterval(fetchMarkets, 15 * 60 * 1000);
         return () => clearInterval(interval);
     }, []);
 

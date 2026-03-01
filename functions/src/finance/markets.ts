@@ -17,13 +17,12 @@ interface CacheEntry {
 }
 
 let cache: CacheEntry | null = null;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
 const MARKET_SYMBOLS: { symbol: string; name: string }[] = [
-    { symbol: "SPX", name: "S&P 500" },
-    { symbol: "IXIC", name: "NASDAQ" },
-    { symbol: "DJI", name: "Dow Jones" },
-    { symbol: "VIX", name: "VIX" },
+    { symbol: "SPY", name: "S&P 500" },
+    { symbol: "QQQ", name: "NASDAQ" },
+    { symbol: "DIA", name: "Dow Jones" },
 ];
 
 export async function getMarketQuotes(apiKey: string): Promise<MarketQuote[]> {

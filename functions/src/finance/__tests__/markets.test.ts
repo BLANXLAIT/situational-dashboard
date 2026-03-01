@@ -18,10 +18,9 @@ describe('getMarketQuotes', () => {
 
     it('returns market data parsed from Twelve Data batch response', async () => {
         const mockResponse = {
-            SPX: { close: '5280.10', change: '25.40', percent_change: '0.48384', datetime: '2024-01-15' },
-            IXIC: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
-            DJI: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
-            VIX: { close: '14.20', change: '-0.50', percent_change: '-3.40136', datetime: '2024-01-15' },
+            SPY: { close: '5280.10', change: '25.40', percent_change: '0.48384', datetime: '2024-01-15' },
+            QQQ: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
+            DIA: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
         };
 
         global.fetch = vi.fn().mockResolvedValue({
@@ -32,8 +31,8 @@ describe('getMarketQuotes', () => {
         const { getMarketQuotes } = await import('../markets');
         const result = await getMarketQuotes('test-api-key');
 
-        expect(result).toHaveLength(4);
-        expect(result[0].symbol).toBe('SPX');
+        expect(result).toHaveLength(3);
+        expect(result[0].symbol).toBe('SPY');
         expect(result[0].name).toBe('S&P 500');
         expect(result[0].price).toBe('5280.10');
         expect(result[0].changePct).toBe('+0.48%');
@@ -42,10 +41,9 @@ describe('getMarketQuotes', () => {
 
     it('returns N/A for symbols with error status', async () => {
         const mockResponse = {
-            SPX: { status: 'error', message: 'symbol not found' },
-            IXIC: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
-            DJI: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
-            VIX: { close: '14.20', change: '-0.50', percent_change: '-3.40136', datetime: '2024-01-15' },
+            SPY: { status: 'error', message: 'symbol not found' },
+            QQQ: { close: '16400.25', change: '-30.00', percent_change: '-0.18291', datetime: '2024-01-15' },
+            DIA: { close: '38500.00', change: '100.00', percent_change: '0.26042', datetime: '2024-01-15' },
         };
 
         global.fetch = vi.fn().mockResolvedValue({

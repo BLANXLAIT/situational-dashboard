@@ -27,8 +27,8 @@ export default function ForexWidget({ onRemove }) {
         };
 
         fetchRates();
-        // Refresh every 5 minutes to align with backend cache TTL
-        const interval = setInterval(fetchRates, 5 * 60 * 1000);
+        // Refresh every 15 minutes to align with backend cache TTL
+        const interval = setInterval(fetchRates, 15 * 60 * 1000);
         return () => clearInterval(interval);
     }, []);
 
