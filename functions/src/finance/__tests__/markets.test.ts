@@ -7,7 +7,7 @@ vi.mock('firebase-functions/logger', () => ({
     warn: vi.fn(),
 }));
 
-function makeFredResponse(seriesId: string, latestValue: string, prevValue: string, latestDate: string, prevDate: string) {
+function makeFredResponse(latestValue: string, prevValue: string, latestDate: string, prevDate: string) {
     return {
         observations: [
             { date: latestDate, value: latestValue },
@@ -28,11 +28,11 @@ describe('getMarketQuotes', () => {
     it('returns market data parsed from FRED observations', async () => {
         global.fetch = vi.fn().mockImplementation((url: string) => {
             if (url.includes('SP500')) {
-                return Promise.resolve({ ok: true, json: async () => makeFredResponse('SP500', '5900.00', '5870.00', '2026-02-28', '2026-02-27') });
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('5900.00', '5870.00', '2026-02-28', '2026-02-27') });
             } else if (url.includes('NASDAQCOM')) {
-                return Promise.resolve({ ok: true, json: async () => makeFredResponse('NASDAQCOM', '19200.50', '19300.00', '2026-02-28', '2026-02-27') });
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('19200.50', '19300.00', '2026-02-28', '2026-02-27') });
             } else {
-                return Promise.resolve({ ok: true, json: async () => makeFredResponse('DJIA', '43500.00', '43200.00', '2026-02-28', '2026-02-27') });
+                return Promise.resolve({ ok: true, json: async () => makeFredResponse('43500.00', '43200.00', '2026-02-28', '2026-02-27') });
             }
         });
 
@@ -52,7 +52,7 @@ describe('getMarketQuotes', () => {
             if (url.includes('SP500')) {
                 return Promise.resolve({ ok: true, json: async () => ({ observations: [{ date: '2026-02-28', value: '.' }] }) });
             }
-            return Promise.resolve({ ok: true, json: async () => makeFredResponse('X', '100', '99', '2026-02-28', '2026-02-27') });
+            return Promise.resolve({ ok: true, json: async () => makeFredResponse('100', '99', '2026-02-28', '2026-02-27') });
         });
 
         const { getMarketQuotes } = await import('../markets');

@@ -83,7 +83,10 @@ export async function getMarketQuotes(apiKey: string): Promise<MarketQuote[]> {
         }
     }));
 
-    cache = { data: results, fetchedAt: Date.now() };
+    const hasFailure = results.some(q => q.price === "N/A");
+    if (!hasFailure || !cache) {
+        cache = { data: results, fetchedAt: Date.now() };
+    }
     return results;
 }
 
