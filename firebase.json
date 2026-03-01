@@ -67,6 +67,10 @@
                 "function": "getGlobeEvents"
             },
             {
+                "source": "/api/alerts/geopolitical",
+                "function": "getGeopoliticalNews"
+            },
+            {
                 "source": "**",
                 "destination": "/index.html"
             }

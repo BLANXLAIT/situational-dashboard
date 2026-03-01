@@ -30,6 +30,15 @@ const SOURCES = [
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
     },
     {
+        name: 'Geopolitical News',
+        provider: 'GDELT Project',
+        url: 'https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/',
+        frequency: '15 Minutes',
+        domain: 'Geopolitics',
+        description: 'Real-time geopolitical and military conflict headlines from the GDELT DOC 2.0 API, which monitors tens of thousands of global news sources. Filtered to English-language coverage of armed conflicts, sanctions, and geopolitical tensions.',
+        icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    },
+    {
         name: 'Intelligence Stream',
         provider: 'Hacker News API',
         url: 'https://github.com/HackerNews/API',

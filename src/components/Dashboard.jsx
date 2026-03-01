@@ -4,6 +4,7 @@ import FinanceWidget from './widgets/FinanceWidget';
 import ForexWidget from './widgets/ForexWidget';
 import GeoWidget from './widgets/GeoWidget';
 import NewsStreamWidget from './widgets/NewsStreamWidget';
+import GeopoliticalWidget from './widgets/GeopoliticalWidget';
 import SpaceWeatherWidget from './widgets/SpaceWeatherWidget';
 import GdacsWidget from './widgets/GdacsWidget';
 import MacroWidget from './widgets/MacroWidget';
@@ -21,6 +22,7 @@ const AVAILABLE_WIDGETS = [
     { id: 'geo', label: 'Geologic & Climate', component: GeoWidget, domain: 'Geology', size: 'compact' },
     { id: 'space', label: 'Space Weather', component: SpaceWeatherWidget, domain: 'Space Weather', size: 'compact' },
     { id: 'news', label: 'Intelligence Stream', component: NewsStreamWidget, domain: 'Tech & AI' },
+    { id: 'geopolitical', label: 'Geopolitical News', component: GeopoliticalWidget, domain: 'Geopolitics' },
     { id: 'gdacs', label: 'Global Disasters', component: GdacsWidget, domain: 'Geology' },
     { id: 'macro', label: 'Macro Economic', component: MacroWidget, domain: 'Finance' },
     { id: 'commodities', label: 'Commodity Prices', component: CommoditiesWidget, domain: 'Finance' },

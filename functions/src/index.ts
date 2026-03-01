@@ -17,6 +17,7 @@ import { getOutbreakAlerts, getInfluenzaTrends } from "./health/diseases";
 import { aggregateGlobalState } from "./analyst/consolidator";
 import { generateNarrative, ANALYST_CONFIG } from "./analyst/gemini";
 import { aggregateGlobeData } from "./globe/aggregator";
+import { getGeopoliticalNews as fetchGeopoliticalNews } from "./intelligence/gdelt";
 
 // Set strict CORS policy to prevent unauthorized web clients from draining quotas
 const ALLOWED_ORIGINS = [
@@ -130,6 +131,22 @@ export const getGlobeEvents = onRequest({ cors: ALLOWED_ORIGINS, invoker: "publi
     } catch (error) {
         logger.error("Error fetching globe events:", error);
         response.status(500).json({ error: "Failed to fetch globe events" });
+    }
+});
+
+// Endpoint to fetch geopolitical news from GDELT
+export const getGeopoliticalNews = onRequest({
+    cors: ALLOWED_ORIGINS,
+    invoker: "public",
+    timeoutSeconds: 120
+}, async (request, response) => {
+    logger.info("Fetching geopolitical news from GDELT...");
+    try {
+        const articles = await fetchGeopoliticalNews();
+        response.json({ articles });
+    } catch (error) {
+        logger.error("Error fetching geopolitical news:", error);
+        response.status(500).json({ error: "Failed to fetch geopolitical news" });
     }
 });
 
