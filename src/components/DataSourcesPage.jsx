@@ -60,7 +60,7 @@ const SOURCES = [
         name: 'Global Markets',
         provider: 'Federal Reserve (FRED)',
         url: 'https://fred.stlouisfed.org/',
-        frequency: '15 Minutes',
+        frequency: 'Daily',
         domain: 'Finance',
         description: 'Daily closing values for S&P 500, NASDAQ Composite, and Dow Jones Industrial Average. Sourced from FRED series SP500, NASDAQCOM, and DJIA with day-over-day change calculation.',
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
